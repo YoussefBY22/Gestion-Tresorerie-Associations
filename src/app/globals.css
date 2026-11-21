@@ -1,0 +1,271 @@
+@import "tailwindcss";
+
+/*
+ * Palette de l'application.
+ *
+ * Aucune couleur de marque n'est écrite en dur ailleurs : tout passe par ces
+ * tokens. Une structure qui veut ses propres couleurs n'a donc **rien à
+ * modifier ici** — elle saisit sa couleur principale dans
+ * Administration › Paramétrage, et le reste suit.
+ *
+ * `--primary-base` est la seule couleur « de marque ». Le layout racine la
+ * remplace par la valeur paramétrée, et les deux thèmes la dérivent :
+ *   - en clair, elle sert telle quelle ;
+ *   - en sombre, elle est éclaircie pour rester lisible sur fond quasi-noir —
+ *     même teinte, jamais une couleur qui ne « ressemble pas à la nôtre ».
+ * Les survols et l'état actif de la barre latérale se calculent à partir
+ * d'elle : il n'y a donc qu'une valeur à tenir, et aucune combinaison
+ * incohérente à produire.
+ *
+ * Thème — trois états :
+ *   - data-theme="clair"   → palette claire imposée
+ *   - data-theme="sombre"  → palette sombre imposée
+ *   - aucun attribut       → on suit le système (prefers-color-scheme)
+ *
+ * Règle de rédaction : toute couleur a sa définition de base sur `:root`
+ * (palette claire). Les blocs sombres ne font que REDÉFINIR des tokens
+ * existants — jamais introduire une couleur qui n'existerait qu'en sombre.
+ */
+
+:root {
+  /*
+   * Couleur de marque par défaut : un bleu d'encre. Neutre, lisible sur
+   * blanc comme sur noir, et assez éloigné du vert « encaissé », de l'ambre
+   * « à surveiller » et du rouge « en retard » pour ne jamais se confondre
+   * avec un état de la comptabilité.
+   */
+  --primary-base: #2c4a7c;
+
+  --background: #f5f6f8;
+  --foreground: #15181d;
+  --card: #ffffff;
+  --card-foreground: #15181d;
+  --muted: #e9ebef;
+  --muted-foreground: #596070;
+  --border: #d8dce3;
+
+  --primary: var(--primary-base);
+  --primary-hover: color-mix(in srgb, var(--primary-base) 86%, #000000);
+  --primary-foreground: #ffffff;
+
+  --sidebar: #1b2331;
+  --sidebar-foreground: #ccd3df;
+  --sidebar-muted: #8792a5;
+  /* Éclaircie : posée sur le bandeau sombre, la couleur de marque telle
+     quelle ne se détacherait pas du fond. */
+  --sidebar-active: color-mix(in srgb, var(--primary-base) 80%, #ffffff);
+
+  --ring: var(--primary);
+
+  /* Couleurs d'état : elles disent un fait comptable, pas une marque, et ne
+     changent donc pas avec la couleur choisie par la structure. */
+  --success: #1f7a3d;
+  --warning: #a86500;
+  --danger: #b3261e;
+
+  /* Palette de séries, pour les graphiques : des teintes distinctes à l'œil
+     et distinguables en impression noir et blanc par leur clarté. */
+  --accent-slate: #3b4a5a;
+  --accent-gold: #8a6d1d;
+  --accent-teal: #1f6e66;
+  --accent-plum: #5c3a6b;
+}
+
+/* Palette sombre, suivie quand le système la demande. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="clair"]) {
+    --background: #14171c;
+    --foreground: #eef0f4;
+    --card: #1b1f26;
+    --card-foreground: #eef0f4;
+    --muted: #242933;
+    --muted-foreground: #9aa3b2;
+    --border: #333a45;
+
+    --primary: color-mix(in srgb, var(--primary-base) 78%, #ffffff);
+    --primary-hover: var(--primary-base);
+    --primary-foreground: #ffffff;
+
+    --sidebar: #0f1217;
+    --sidebar-foreground: #ccd3df;
+    --sidebar-muted: #7c8697;
+    --sidebar-active: color-mix(in srgb, var(--primary-base) 80%, #ffffff);
+
+    --ring: var(--primary);
+
+    --success: #4caf6e;
+    --warning: #d99000;
+    --danger: #e5544b;
+
+    --accent-slate: #7c93ab;
+    --accent-gold: #c9a53f;
+    --accent-teal: #4fada3;
+    --accent-plum: #9c78ad;
+  }
+}
+
+/* Palette sombre imposée par le choix de la personne ou de l'administration. */
+:root[data-theme="sombre"] {
+  --background: #14171c;
+  --foreground: #eef0f4;
+  --card: #1b1f26;
+  --card-foreground: #eef0f4;
+  --muted: #242933;
+  --muted-foreground: #9aa3b2;
+  --border: #333a45;
+
+  --primary: color-mix(in srgb, var(--primary-base) 78%, #ffffff);
+  --primary-hover: var(--primary-base);
+  --primary-foreground: #ffffff;
+
+  --sidebar: #0f1217;
+  --sidebar-foreground: #ccd3df;
+  --sidebar-muted: #7c8697;
+  --sidebar-active: color-mix(in srgb, var(--primary-base) 80%, #ffffff);
+
+  --ring: var(--primary);
+
+  --success: #4caf6e;
+  --warning: #d99000;
+  --danger: #e5544b;
+
+  --accent-slate: #7c93ab;
+  --accent-gold: #c9a53f;
+  --accent-teal: #4fada3;
+  --accent-plum: #9c78ad;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted: var(--sidebar-muted);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-accent-slate: var(--accent-slate);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-teal: var(--accent-teal);
+  --color-accent-plum: var(--accent-plum);
+  --font-sans: var(--font-montserrat);
+  /* Pas de police à chasse fixe propre : les références et montants en
+     `font-mono` retombent sur celle du système, ce qui suffit à les aligner. */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Le basculement de thème ne doit pas déclencher d'animation de transition. */
+:root[data-theme-transition="off"] * {
+  transition: none !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Animations                                                          */
+/* ------------------------------------------------------------------ */
+
+/*
+ * Décor et apparitions de l'écran de connexion. Elles sont décoratives :
+ * la page est entièrement lisible et utilisable sans elles, et le bloc
+ * `prefers-reduced-motion` ci-dessous les coupe net pour qui a demandé
+ * moins d'animation à son système — ce n'est pas un réglage de confort,
+ * certains le règlent pour des raisons de santé.
+ */
+
+@keyframes apparition-bas {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fondu {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Halo qui respire, très lentement : un signe de vie, pas un clignotant. */
+@keyframes halo {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08);
+  }
+}
+
+/* Dérive lente des pièces du décor. */
+@keyframes derive {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+/* Tracé qui se dessine (courbe du décor). */
+@keyframes trace {
+  from {
+    stroke-dashoffset: var(--longueur, 1000);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.anim-apparition {
+  animation: apparition-bas 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.anim-fondu {
+  animation: fondu 0.8s ease-out both;
+}
+.anim-halo {
+  animation: halo 7s ease-in-out infinite;
+}
+.anim-derive {
+  animation: derive 9s ease-in-out infinite;
+}
+.anim-trace {
+  stroke-dasharray: var(--longueur, 1000);
+  animation: trace 2.2s ease-out 0.2s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-apparition,
+  .anim-fondu,
+  .anim-halo,
+  .anim-derive,
+  .anim-trace {
+    animation: none;
+  }
+  .anim-trace {
+    stroke-dasharray: none;
+  }
+}

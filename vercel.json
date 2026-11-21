@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/rappels",
+      "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/cron/purge-corbeille",
+      "schedule": "30 3 * * *"
+    }
+  ]
+}

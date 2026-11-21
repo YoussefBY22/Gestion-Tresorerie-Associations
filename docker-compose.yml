@@ -1,0 +1,29 @@
+# Base de données locale via Docker — l'une des trois options de stockage
+# (voir .env.example). Les données vivent dans le volume `donnees-mongo`,
+# qui survit à `docker compose down` ; seul `down -v` les supprime.
+#
+#   docker compose up -d     démarre la base
+#   docker compose down      l'arrête, sans rien effacer
+#
+# Puis dans .env.local :
+#   MONGODB_URI="mongodb://127.0.0.1:27017/tresorerie"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: tresorerie-mongo
+    restart: unless-stopped
+    ports:
+      # Lié à l'interface locale uniquement : la base ne doit pas être
+      # joignable depuis le réseau, elle n'a pas de mot de passe ici.
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - donnees-mongo:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  donnees-mongo:

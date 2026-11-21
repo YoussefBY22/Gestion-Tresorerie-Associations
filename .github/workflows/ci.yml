@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      # Valeurs factices : la CI vérifie lint, types, tests et build.
+      # Aucune base n'est jointe — les tests n'en ont pas besoin.
+      MONGODB_URI: ""
+      AUTH_SECRET: "ci-secret-not-used-in-production"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Vérification des types
+        run: npm run typecheck
+
+      - name: Tests unitaires
+        run: npm test
+
+      - name: Build
+        run: npm run build
