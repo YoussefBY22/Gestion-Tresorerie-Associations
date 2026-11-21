@@ -1,18 +1,84 @@
-# Trésorerie
+<div align="center">
 
-**Gestion complète de la trésorerie d'associations et de clubs.**
+# 💸 Gestion de la trésorerie des associations
 
-Budget prévisionnel, journal des encaissements et des dépenses, caisse et
-banque, factures et avoirs, reçus numérotés, registres légaux, déclarations
-fiscales mensuelles — avec la pièce justificative attachée à chaque écriture.
+**Une application de trésorerie pensée pour le droit tunisien des associations : budget, journal, factures, reçus, registres légaux et déclaration fiscale mensuelle, avec la pièce justificative attachée à chaque écriture.**
 
-L'application tourne **sur un poste** comme **en ligne** : c'est la même
-application, seule la ligne de connexion à la base change
-(voir [Où sont stockées les données](#où-sont-stockées-les-données)).
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Vitest](https://img.shields.io/badge/602_tests-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
+![Licence](https://img.shields.io/badge/Licence-Tous_droits_r%C3%A9serv%C3%A9s-lightgrey?style=for-the-badge)
+
+<img src="docs/captures/01-tableau-de-bord.png" alt="Tableau de bord financier" width="900">
+
+</div>
 
 ---
 
-## Sommaire
+## ⚖️ Conçue pour le cadre légal tunisien
+
+Une association tunisienne ne tient pas ses comptes comme une entreprise : elle répond au **décret-loi n° 2011-88 du 24 septembre 2011 portant organisation des associations**, à la fiscalité tunisienne (TVA, timbre fiscal, retenue à la source) et aux obligations de transparence sur l'origine de ses fonds. L'application encode ces règles **dans le code**, avec des tests, plutôt que dans la tête du trésorier.
+
+| Exigence | Ce que fait l'application |
+|---|---|
+| **Registre des dons** (décret-loi 2011-88) | Chaque don est typé : **numéraire ou en nature**, **origine publique ou privée**, **provenance nationale ou étrangère**. Le CIN du donateur est exigé pour un don en numéraire et signalé s'il manque. Les pièces attendues (reçu du donateur, convention de don, courrier d'engagement) se déposent sur la fiche. |
+| **Reçus** pour cotisations, dons et encaissements | **Numérotation continue, sans trou**, avec les mentions exigées par le décret-loi 2011-88. Familles de reçus paramétrables, modèles éditables. |
+| **Plafond des paiements en espèces** | Un règlement ou un encaissement de plus de **500 DT** en espèces est signalé : au-delà, le décret-loi impose le chèque ou le virement. |
+| **Six registres légaux** | Clients, créances, **cotisations**, **dons**, fournisseurs (matricule fiscal vérifié avant tout engagement), chèques et dettes. |
+| **Déclaration mensuelle** | **TVA collectée et déductible**, crédit reporté d'un mois sur l'autre, **timbres fiscaux** encaissés et **retenue à la source** opérée, le tout liquidé dans l'ordre des mois. Un mois sans activité se déclare en déclaration néant. |
+| **Retenue à la source** | Taux par type de prestataire (honoraires au régime réel ou forfaitaire, loyers d'immeubles, marchés, location d'hôtel), seuil de **1 000 DT**, **certificat de retenue** à remettre au prestataire. |
+| **Facturation** | TVA à **19 %**, **timbre fiscal de 1 DT**, numérotation continue par exercice, échéance, et **avoirs** : une facture émise ne se modifie pas, elle se corrige par un avoir. |
+| **Traçabilité et sérieux comptable** | Journal d'activité horodaté et nommé, corbeille restaurable 30 jours (rien n'est supprimé sèchement), budget voté **verrouillé après l'assemblée générale** et corrigé par demande tracée, conservation des preuves de dépôt. |
+
+> Les taux et seuils fiscaux sont corrects au moment de l'écriture et **paramétrables** : ce sont des valeurs de droit, à vérifier à chaque loi de finances. L'application est une aide à la tenue des comptes et ne remplace pas un expert-comptable.
+
+## 🌟 Points forts
+
+- **Déclaration fiscale mensuelle automatisée** : le trésorier saisit ses factures émises et reçues, l'application liquide la TVA, les timbres et la retenue à la source, puis **clôture et génère le document**.
+- **Éditeur de documents personnalisable** : factures, reçus, devis, avoirs et bons de commande se **posent à la souris**, avec des **champs préremplis** entre accolades (`{{client}}`, `{{reference}}`, `{{totalTTC}}`…) remplis à l'émission. L'aperçu est un **vrai PDF**, avec police embarquée.
+- **Import de modèles existants** : déposez un `.xlsx`, un `.pptx` ou un `.docx`, l'application en lit la mise en page et en fait un modèle retouchable.
+- **Gestion des reçus et des cotisations** : un encaissement donne droit à un reçu numéroté, la cotisation de chaque adhérent est suivie membre par membre, à jour ou en attente.
+- **Pilotage en continu** : solde de trésorerie réel (caisse et banque, le relevé bancaire fait foi), seuil d'alerte, budget prévisionnel mois par mois, suivi réel contre prévu, calendrier des échéances fiscales avec rappels à J-7.
+- **Sécurité et rôles** : administrateur, trésorier et lecteur (président, commissaire aux comptes), mots de passe hachés, et un **test automatique qui échoue si une action serveur n'est pas protégée**.
+
+## 🖼️ Captures
+
+**Tableau de bord financier** : solde réel, alertes, recettes et charges contre le budget.
+
+![Tableau de bord](docs/captures/01-tableau-de-bord.png)
+
+**Déclaration fiscale mensuelle** : TVA collectée et déductible, timbres, retenue à la source, factures reçues et certificats de retenue.
+
+![Déclaration mensuelle](docs/captures/09-declaration-mensuelle.png)
+
+**Éditeur de documents** : une facture personnalisable avec champs préremplis, blocs, tableau et totaux.
+
+![Éditeur de facture](docs/captures/12-editeur-facture.png)
+
+<table>
+  <tr>
+    <td width="50%"><b>Registre des dons</b> (décret-loi 2011-88)<br><img src="docs/captures/08-registre-des-dons.png"></td>
+    <td width="50%"><b>Factures et avoirs</b><br><img src="docs/captures/04-factures.png"></td>
+  </tr>
+  <tr>
+    <td><b>Reçus numérotés</b><br><img src="docs/captures/05-recus.png"></td>
+    <td><b>Registre des cotisations</b><br><img src="docs/captures/07-cotisations.png"></td>
+  </tr>
+  <tr>
+    <td><b>Budget prévisionnel</b><br><img src="docs/captures/02-budget.png"></td>
+    <td><b>Journal des flux</b><br><img src="docs/captures/03-flux.png"></td>
+  </tr>
+  <tr>
+    <td><b>Registres légaux</b><br><img src="docs/captures/06-registres.png"></td>
+    <td><b>Catalogue des modèles de documents</b><br><img src="docs/captures/11-catalogue-modeles.png"></td>
+  </tr>
+</table>
+
+*Données de démonstration fictives (association, clients, donateurs et montants inventés).*
+
+## 🧭 Sommaire technique
 
 1. [D'où vient ce projet](#doù-vient-ce-projet)
 2. [Ce que fait l'application](#ce-que-fait-lapplication)
@@ -26,29 +92,13 @@ application, seule la ligne de connexion à la base change
 10. [Conventions de développement](#conventions-de-développement)
 11. [Ce qui reste à faire](#ce-qui-reste-à-faire)
 
+L'application tourne **sur un poste** comme **en ligne** : c'est la même application, seule la ligne de connexion à la base change.
+
 ---
 
 ## D'où vient ce projet
 
-Le module Trésorerie d'un ERP de Junior Entreprise, extrait pour vivre seul.
-
-L'ERP d'origine couvrait treize processus et dépendait d'un annuaire Google,
-de quatorze rôles et de modules qui se tenaient les uns les autres : créer une
-facture supposait un prospect au CRM, une opportunité gagnée, puis un projet.
-Une association ou un club n'a rien de tout cela, et n'en a pas besoin pour
-tenir ses comptes.
-
-Ce qui a été **retiré** : les modules commerciaux, projets, RH, qualité,
-conformité, marketing, international, passation ; l'authentification par un
-fournisseur d'identité externe ; les onze rôles qui ne servaient qu'à eux.
-
-Ce qui a été **gardé entier** : toute la trésorerie, le moteur de documents
-(modèles, numérotation, PDF), la corbeille, le journal d'activité, et les
-règles fiscales tunisiennes qui y étaient écrites.
-
-Ce qui a été **ajouté** : la création d'une affaire — client et projet — depuis
-la trésorerie elle-même, puisqu'il n'existe plus de module commercial pour la
-fournir. C'était le seul vrai point de blocage de l'extraction.
+À l'origine, le module Trésorerie d'un ERP de junior-entreprise, **extrait pour vivre seul** : une association ou un club n'a besoin ni de CRM, ni de gestion de projets, ni de quatorze rôles pour tenir ses comptes. Il a gardé toute la trésorerie, le moteur de documents (modèles, numérotation, PDF), la corbeille, le journal d'activité et les règles fiscales tunisiennes ; il a gagné la création d'une affaire (client et projet) depuis la trésorerie elle-même, seul vrai point de blocage de l'extraction.
 
 ---
 
@@ -56,48 +106,36 @@ fournir. C'était le seul vrai point de blocage de l'extraction.
 
 ### Prévoir
 
-- **Budget prévisionnel** par exercice, en sections (recettes, dépenses de
-  fonctionnement, investissements), avec ventilation mensuelle.
-- **Verrouillage après l'assemblée générale d'ouverture** : un budget voté ne
-  se modifie plus librement ; il se corrige par une demande tracée.
+- **Budget prévisionnel** par exercice, en sections (recettes, dépenses de fonctionnement, investissements), avec ventilation mensuelle.
+- **Verrouillage après l'assemblée générale d'ouverture** : un budget voté ne se modifie plus librement ; il se corrige par une demande tracée.
 - **Suivi réel contre prévu**, poste par poste.
 
 ### Enregistrer
 
-- **Journal des opérations** : encaissements et décaissements, par compte
-  (caisse / banque), avec mode de paiement et pièce justificative.
-- **Caisse et banque** : soldes séparés, mouvements internes (retraits,
-  versements), rapprochement avec le relevé bancaire — le relevé fait foi dès
-  qu'il y en a un.
+- **Journal des opérations** : encaissements et décaissements, par compte (caisse / banque), avec mode de paiement et pièce justificative.
+- **Caisse et banque** : soldes séparés, mouvements internes (retraits, versements), rapprochement avec le relevé bancaire — le relevé fait foi dès qu'il y en a un.
 - **Seuil de trésorerie minimal** et alerte quand on passe dessous.
 
 ### Facturer et encaisser
 
-- **Affaires** : un client, un projet, un montant convenu. Créés en un geste
-  depuis la trésorerie ; le client entre au registre du même mouvement.
-- **Factures** : numérotation continue par exercice, TVA, timbre fiscal,
-  échéance, reste à facturer calculé depuis le montant convenu.
-- **Avoirs** : une facture émise ne se modifie pas, elle se corrige par un
-  avoir ; les deux pièces restent au registre.
+- **Affaires** : un client, un projet, un montant convenu. Créés en un geste depuis la trésorerie ; le client entre au registre du même mouvement.
+- **Factures** : numérotation continue par exercice, TVA, timbre fiscal, échéance, reste à facturer calculé depuis le montant convenu.
+- **Avoirs** : une facture émise ne se modifie pas, elle se corrige par un avoir ; les deux pièces restent au registre.
 - **Bons de commande** et engagement budgétaire.
 
 ### Justifier
 
-- **Reçus** pour les encaissements, les cotisations et les dons, numérotés
-  sans trou, avec les mentions exigées par le décret-loi 2011-88.
+- **Reçus** pour les encaissements, les cotisations et les dons, numérotés sans trou, avec les mentions exigées par le décret-loi 2011-88.
 - **Familles de reçus** paramétrables, modèles de documents éditables.
-- **Moteur de documents** : gabarits et canevas, import de modèles existants
-  (XLSX, DOCX, PPTX), charte graphique, PDF avec police embarquée.
+- **Moteur de documents** : gabarits et canevas, import de modèles existants (XLSX, DOCX, PPTX), charte graphique, PDF avec police embarquée.
 
 ### Tenir les registres
 
-Clients et créances, cotisations, dons, fournisseurs, chèques et dettes,
-inventaire et amortissements.
+Clients et créances, cotisations, dons, fournisseurs, chèques et dettes, inventaire et amortissements.
 
 ### Déclarer
 
-- **Déclaration mensuelle** : TVA collectée et déductible, retenues à la
-  source, timbre fiscal.
+- **Déclaration mensuelle** : TVA collectée et déductible, retenues à la source, timbre fiscal.
 - **Certificats de retenue à la source**.
 - **Calendrier des obligations fiscales**, avec rappels.
 
@@ -391,3 +429,9 @@ Elles ne sont pas décoratives : chacune vient d'un problème rencontré.
 - **Taux et seuils fiscaux.** Ils sont corrects pour la Tunisie au moment de
   l'écriture et paramétrables, mais ce sont des valeurs de droit : à
   reverifier à chaque loi de finances.
+
+---
+
+## Licence
+
+© 2026 Youssef Ben Youssef. Tous droits réservés (voir [LICENSE](LICENSE)). Le code est publié pour consultation et évaluation ; toute réutilisation exige l'accord écrit de l'auteur.
