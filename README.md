@@ -98,7 +98,11 @@ L'application tourne **sur un poste** comme **en ligne** : c'est la même applic
 
 ## D'où vient ce projet
 
-À l'origine, le module Trésorerie d'un ERP de junior-entreprise, **extrait pour vivre seul** : une association ou un club n'a besoin ni de CRM, ni de gestion de projets, ni de quatorze rôles pour tenir ses comptes. Il a gardé toute la trésorerie, le moteur de documents (modèles, numérotation, PDF), la corbeille, le journal d'activité et les règles fiscales tunisiennes ; il a gagné la création d'une affaire (client et projet) depuis la trésorerie elle-même, seul vrai point de blocage de l'extraction.
+Créé à la suite de mon parcours en tant que président fondateur d'une association, après avoir assuré la trésorerie durant les premiers mois suivant sa création et consacré plus d'un an à l'étude de la fiscalité et du cadre juridique régissant les associations.
+
+Ce projet a été conçu dans le but d'être mis gratuitement à la disposition des associations tunisiennes. Il est toujours en cours de développement et n'a pas encore été testé dans son intégralité.
+
+La licence restera en attente jusqu'à la finalisation complète du projet.
 
 ---
 
